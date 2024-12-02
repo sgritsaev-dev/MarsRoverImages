@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		495D93602CF9BD4C00376FB2 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 495D935F2CF9BD4C00376FB2 /* SDWebImage */; };
+		495D93622CF9BD4C00376FB2 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 495D93612CF9BD4C00376FB2 /* SDWebImageMapKit */; };
+		495D93652CF9C17300376FB2 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 495D93642CF9C17300376FB2 /* Nuke */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		49063BEB2CEB72BD0007137E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				495D93652CF9C17300376FB2 /* Nuke in Frameworks */,
+				495D93622CF9BD4C00376FB2 /* SDWebImageMapKit in Frameworks */,
+				495D93602CF9BD4C00376FB2 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +134,9 @@
 			);
 			name = MarsRoverImages;
 			packageProductDependencies = (
+				495D935F2CF9BD4C00376FB2 /* SDWebImage */,
+				495D93612CF9BD4C00376FB2 /* SDWebImageMapKit */,
+				495D93642CF9C17300376FB2 /* Nuke */,
 			);
 			productName = MarsRoverImages;
 			productReference = 49063BD42CEB72BA0007137E /* MarsRoverImages.app */;
@@ -208,6 +220,10 @@
 			);
 			mainGroup = 49063BCB2CEB72BA0007137E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				495D93302CF9BC2C00376FB2 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				495D93632CF9C17300376FB2 /* XCRemoteSwiftPackageReference "Nuke" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 49063BD52CEB72BA0007137E /* Products */;
 			projectDirPath = "";
@@ -569,6 +585,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		495D93302CF9BC2C00376FB2 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.20.0;
+			};
+		};
+		495D93632CF9C17300376FB2 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		495D935F2CF9BD4C00376FB2 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 495D93302CF9BC2C00376FB2 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		495D93612CF9BD4C00376FB2 /* SDWebImageMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 495D93302CF9BC2C00376FB2 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImageMapKit;
+		};
+		495D93642CF9C17300376FB2 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 495D93632CF9C17300376FB2 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 49063BCC2CEB72BA0007137E /* Project object */;
 }
