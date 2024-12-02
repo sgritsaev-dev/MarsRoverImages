@@ -6,22 +6,30 @@
 //
 
 import UIKit
+import Nuke
 
 final class DetailsCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "DetailsCollectionViewCell"
     
+    var roverImage: GroupedPhotos.Photo? {
+        didSet {
+            guard let image = roverImage, let url = URL(string: image.imgSrc) else { return }
+            Nuke.loadImage(with: url, into: roverImageView)
+        }
+    }
+    
     let roverImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        imageView.backgroundColor = RoverColors.roverDark
         imageView.layer.cornerRadius = 4
         imageView.layer.masksToBounds = true
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleToFill
         return imageView
     }()
     
-    private let detailsIdLabel = UILabel()
-    private let detailsSolLabel = UILabel()
+     let detailsIdLabel = UILabel()
+     let detailsDateLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,24 +58,22 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLabels() {
-        detailsIdLabel.text = "USSR"
         detailsIdLabel.font = RoverFonts.detailsLargeFont
         detailsIdLabel.textColor = RoverColors.roverDark
         
-        detailsSolLabel.text = "USSR"
-        detailsSolLabel.font = RoverFonts.detailsSmallFont
-        detailsSolLabel.textColor = RoverColors.roverLight
+        detailsDateLabel.font = RoverFonts.detailsSmallFont
+        detailsDateLabel.textColor = RoverColors.roverLight
         
         addSubview(detailsIdLabel)
-        addSubview(detailsSolLabel)
+        addSubview(detailsDateLabel)
         
         detailsIdLabel.translatesAutoresizingMaskIntoConstraints = false
-        detailsSolLabel.translatesAutoresizingMaskIntoConstraints = false
+        detailsDateLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        detailsSolLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        detailsSolLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        detailsDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        detailsDateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
         detailsIdLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        detailsIdLabel.bottomAnchor.constraint(equalTo: detailsSolLabel.topAnchor).isActive = true
+        detailsIdLabel.bottomAnchor.constraint(equalTo: detailsDateLabel.topAnchor).isActive = true
     }
 }

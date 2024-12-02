@@ -9,38 +9,75 @@ import UIKit
 
 final class DetailsViewController: UIViewController {
     
+    weak var delegate: DetailsViewControllerDelegate?
+
+    let networkDataFetcher = RoverPhotoFetcher()
+    
+    var cameraName: String = "Camera Name"
+    
+    var detailsPhotos: [GroupedPhotos.Photo]? {
+        didSet {
+            detailsCollectionView.reloadData()
+        }
+    }
+    
+    private func loadDetailsPhotos(rover: String, sol: Int) {
+        self.networkDataFetcher.fetchGroupedPhotos(rover: rover, sol: sol) { [weak self] results in
+            self?.detailsPhotos = results.filter { $0.name == self?.cameraName }.first?.photos
+            self?.detailsCollectionView.reloadData()
+        }
+    }
+    
     private let collectionHead = UIView()
     private let headLargeTitle = UILabel()
     private let headSmallTitle = UILabel()
     private let leftArrow = UIButton()
     private let rightArrow = UIButton()
-    private let itemsPerRow: CGFloat = 2
-    private let sectionInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-    private let images = Array(repeating: UIImage(named: "ussr")!, count: 20)
+    
     private let detailsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        RoverDataSource.shared.reloadDelegate = { [weak self] rover, sol in
+            self?.loadDetailsPhotos(rover: rover, sol: sol)
+            self?.detailsCollectionView.reloadData()
+        }
+        navigationController?.isNavigationBarHidden = true
+        view.backgroundColor = RoverColors.roverWhite
+        loadDetailsPhotos(rover: RoverDataSource.shared.selectedRover.lowercase, sol: RoverDataSource.shared.selectedSol)
+        
         setupDetailsTableHead()
         setupCollectionView()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        headLargeTitle.text = RoverDataSource.shared.selectedRover.rawValue
+        headSmallTitle.text = "СОЛ #\(RoverDataSource.shared.selectedSol)"
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+            super.viewWillDisappear(animated)
+        delegate?.didUpdateRoverOrSol(rover: RoverDataSource.shared.selectedRover.rawValue, sol: RoverDataSource.shared.selectedSol)
+        }
+    
     private func setupDetailsTableHead() {
         collectionHead.backgroundColor = RoverColors.roverWhite
         
-        headLargeTitle.text = "Spirit"
         headLargeTitle.font = RoverFonts.headLargeFont
         headLargeTitle.textColor = RoverColors.roverDark
         
-        headSmallTitle.text = "21.11.2015"
         headSmallTitle.font = RoverFonts.headSmallFont
         headSmallTitle.textColor = RoverColors.roverLight
         
         leftArrow.setImage(UIImage(named: "arrow-left"), for: .normal)
+        leftArrow.addTarget(self, action: #selector(self.minusDay), for: .touchUpInside)
         
         rightArrow.setImage(UIImage(named: "arrow-right"), for: .normal)
+        rightArrow.addTarget(self, action: #selector(self.plusDay), for: .touchUpInside)
         
         view.addSubview(collectionHead)
         collectionHead.addSubview(headLargeTitle)
@@ -76,7 +113,7 @@ final class DetailsViewController: UIViewController {
     
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = calculateSize()
+        layout.itemSize = calculateItemSize()
         layout.minimumLineSpacing = 12
         layout.minimumInteritemSpacing = 8
         layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 16)
@@ -99,23 +136,35 @@ final class DetailsViewController: UIViewController {
         ])
     }
     
-    private func calculateSize() -> CGSize {
-        let paddingSpace = sectionInsets.left * 2 + 4
-        let availiableWidth = view.frame.width - paddingSpace
-        let widthPerItem = availiableWidth / itemsPerRow
+    private func calculateItemSize() -> CGSize {
+        let width = (view.frame.width - 44) / 2
         let height = CGFloat(view.frame.height * 16 / 100)
-        return CGSize(width: widthPerItem, height: height)
+        return CGSize(width: width, height: height)
+    }
+    
+    @objc func plusDay() {
+        RoverDataSource.shared.selectedSol += 1
+        headSmallTitle.text = "СОЛ #\(RoverDataSource.shared.selectedSol)"
+    }
+
+    @objc func minusDay() {
+        RoverDataSource.shared.selectedSol -= 1
+        headSmallTitle.text = "СОЛ #\(RoverDataSource.shared.selectedSol)"
     }
 }
 
 extension DetailsViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+        guard let number = detailsPhotos?.count else { return 0 }
+        return number
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = detailsCollectionView.dequeueReusableCell(withReuseIdentifier: "DetailsCollectionViewCell", for: indexPath) as! DetailsCollectionViewCell
-        cell.roverImageView.image = images[indexPath.item]
+        guard let photo = detailsPhotos?[indexPath.item] else { return cell }
+        cell.detailsDateLabel.text = urlToRus(urlDate: photo.earthDate)
+        cell.detailsIdLabel.text = "id #\(photo.id)"
+        cell.roverImage = photo
         return cell
     }
     
