@@ -6,25 +6,39 @@
 //
 
 import UIKit
+import Nuke
 
 final class CamerasCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "CamerasCollectionViewCell"
-    internal let roverImageView: UIImageView = {
+    let identifier = "CamerasCollectionViewCell"
+    
+    weak var collectionView: UICollectionView?
+    var indexPath: IndexPath?
+    
+    let roverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 4
         imageView.layer.masksToBounds = true
+        imageView.backgroundColor = RoverColors.roverDark
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
-    private let cameraIdLabel = UILabel()
-    private let cameraSolLabel = UILabel()
+    
+    let cameraIdLabel = UILabel()
+    let cameraDateLabel = UILabel()
+    
+    var roverImage: GroupedPhotos.Photo? {
+        didSet {
+            guard let image = roverImage, let url = URL(string: image.imgSrc) else { return }
+            Nuke.loadImage(with: url, into: roverImageView)
+        }
+    }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         roverImageView.image = nil
     }
- 
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = RoverColors.roverWhite
@@ -41,31 +55,30 @@ final class CamerasCollectionViewCell: UICollectionViewCell {
         
         roverImageView.translatesAutoresizingMaskIntoConstraints = false
         
-        roverImageView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        roverImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: self.frame.height * 26 / 100).isActive = true
         roverImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         roverImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         roverImageView.bottomAnchor.constraint(equalTo: cameraIdLabel.topAnchor, constant: -12).isActive = true
+        
     }
     
     private func setupLabels() {
-        cameraIdLabel.text = "USSR"
         cameraIdLabel.font = RoverFonts.detailsLargeFont
         cameraIdLabel.textColor = RoverColors.roverDark
         
-        cameraSolLabel.text = "USSR"
-        cameraSolLabel.font = RoverFonts.detailsSmallFont
-        cameraSolLabel.textColor = RoverColors.roverLight
+        cameraDateLabel.font = RoverFonts.detailsSmallFont
+        cameraDateLabel.textColor = RoverColors.roverLight
         
         addSubview(cameraIdLabel)
-        addSubview(cameraSolLabel)
+        addSubview(cameraDateLabel)
         
         cameraIdLabel.translatesAutoresizingMaskIntoConstraints = false
-        cameraSolLabel.translatesAutoresizingMaskIntoConstraints = false
+        cameraDateLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        cameraSolLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        cameraSolLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        cameraDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        cameraDateLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         
         cameraIdLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        cameraIdLabel.bottomAnchor.constraint(equalTo: cameraSolLabel.topAnchor).isActive = true
+        cameraIdLabel.bottomAnchor.constraint(equalTo: cameraDateLabel.topAnchor).isActive = true
     }
 }
