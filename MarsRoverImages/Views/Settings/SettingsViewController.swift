@@ -9,12 +9,22 @@ import UIKit
 
 final class SettingsViewController: UIViewController {
     
+    let viewModel: SettingsViewModel
+    
+    init(viewModelManager: ViewModelManager) {
+        self.viewModel = viewModelManager.settingsViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private let tableView = UITableView()
-    private var units: [SettingsItem] = [("Spirit", true), ("Opportunity", false), ("Curiosity", false), ("Perseverance", false), ("Random", false)].map { SettingsItem(title: $0.0, isSelected: $0.1) }
     private let tableHead = UIView()
     private let headLargeTitle = UILabel()
     private let headSmallTitle = UILabel()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
@@ -64,7 +74,7 @@ final class SettingsViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         view.addSubview(tableView)
-
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: tableHead.bottomAnchor),
@@ -76,28 +86,28 @@ final class SettingsViewController: UIViewController {
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return units.count
+        return viewModel.rovers.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let unit = units[indexPath.row]
-        cell.textLabel?.text = unit.title
+        let rover = viewModel.rovers[indexPath.row]
+        cell.textLabel?.text = rover.roverName.rawValue
         cell.textLabel?.font = RoverFonts.settingsFont
-        cell.textLabel?.textColor = unit.isSelected ? RoverColors.roverPurple : RoverColors.roverDark
+        cell.textLabel?.textColor = rover == viewModel.selectedRover ? RoverColors.roverPurple : RoverColors.roverDark
         let checkmarkImageView = UIImageView(image: UIImage(named: "checkbox"))
-        cell.accessoryView = unit.isSelected ? checkmarkImageView : .none
+        cell.accessoryView = rover == viewModel.selectedRover ? checkmarkImageView : .none
         cell.backgroundColor = RoverColors.roverWhite
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let unit = units[indexPath.row]
-        if unit.isSelected == false {
-            units.forEach { $0.isSelected = false }
-            unit.isSelected = true
+        let rover = viewModel.rovers[indexPath.row]
+        if rover != viewModel.selectedRover {
+            viewModel.selectedRover = rover
             tableView.reloadData()
         }
     }

@@ -9,6 +9,8 @@ import UIKit
 
 final class MenuTabBarController: UITabBarController {
     
+    private var camerasViewController: CamerasViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupTabBar()
@@ -21,13 +23,14 @@ final class MenuTabBarController: UITabBarController {
         tabBar.isTranslucent = false
         tabBar.tintColor = RoverColors.roverPurple
         tabBar.unselectedItemTintColor = RoverColors.roverDark
+        let viewModelManager = ViewModelManager()
         self.viewControllers = dataSource.map {
             switch $0 {
             case .cameras:
-                let CamerasViewController = CamerasViewController()
-                return UINavigationController(rootViewController: CamerasViewController)
+                let camerasViewController = CamerasViewController(viewModelManager: viewModelManager)
+                return UINavigationController(rootViewController: camerasViewController)
             case .settings:
-                let settingsViewController = SettingsViewController()
+                let settingsViewController = SettingsViewController(viewModelManager: viewModelManager)
                 return UINavigationController(rootViewController: settingsViewController)
             }
         }
