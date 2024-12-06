@@ -9,60 +9,44 @@ import UIKit
 
 final class DetailsViewController: UIViewController {
     
-    weak var delegate: DetailsViewControllerDelegate?
-
-    let networkDataFetcher = RoverPhotoFetcher()
-    
-    var cameraName: String = "Camera Name"
-    
-    var detailsPhotos: [GroupedPhotos.Photo]? {
-        didSet {
-            detailsCollectionView.reloadData()
-        }
-    }
-    
-    private func loadDetailsPhotos(rover: String, sol: Int) {
-        self.networkDataFetcher.fetchGroupedPhotos(rover: rover, sol: sol) { [weak self] results in
-            self?.detailsPhotos = results.filter { $0.name == self?.cameraName }.first?.photos
-            self?.detailsCollectionView.reloadData()
-        }
-    }
+    let viewModel: CamerasViewModel
     
     private let collectionHead = UIView()
     private let headLargeTitle = UILabel()
     private let headSmallTitle = UILabel()
     private let leftArrow = UIButton()
     private let rightArrow = UIButton()
+    private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    private let detailsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    init(viewModelManager: ViewModelManager) {
+        self.viewModel = viewModelManager.camerasViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        RoverDataSource.shared.reloadDelegate = { [weak self] rover, sol in
-            self?.loadDetailsPhotos(rover: rover, sol: sol)
-            self?.detailsCollectionView.reloadData()
-        }
-        navigationController?.isNavigationBarHidden = true
-        view.backgroundColor = RoverColors.roverWhite
-        loadDetailsPhotos(rover: RoverDataSource.shared.selectedRover.lowercase, sol: RoverDataSource.shared.selectedSol)
-        
+        setupUI()
         setupDetailsTableHead()
+        setupCollectionViewLayout()
         setupCollectionView()
-        navigationController?.interactivePopGestureRecognizer?.delegate = self
-        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        headLargeTitle.text = RoverDataSource.shared.selectedRover.rawValue
-        headSmallTitle.text = "СОЛ #\(RoverDataSource.shared.selectedSol)"
+        setupTitleText()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-            super.viewWillDisappear(animated)
-        delegate?.didUpdateRoverOrSol(rover: RoverDataSource.shared.selectedRover.rawValue, sol: RoverDataSource.shared.selectedSol)
-        }
+    private func setupUI() {
+        viewModel.delegate = self
+        navigationController?.isNavigationBarHidden = true
+        view.backgroundColor = RoverColors.roverWhite
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
     
     private func setupDetailsTableHead() {
         collectionHead.backgroundColor = RoverColors.roverWhite
@@ -92,10 +76,10 @@ final class DetailsViewController: UIViewController {
         rightArrow.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            collectionHead.heightAnchor.constraint(equalToConstant: (view.bounds.height)/100*13),
             collectionHead.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionHead.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionHead.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionHead.heightAnchor.constraint(equalToConstant: (view.bounds.height)/100*13),
             
             headLargeTitle.leadingAnchor.constraint(equalTo: collectionHead.leadingAnchor, constant: 16),
             headLargeTitle.centerYAnchor.constraint(equalTo: collectionHead.centerYAnchor),
@@ -107,61 +91,70 @@ final class DetailsViewController: UIViewController {
             leftArrow.trailingAnchor.constraint(equalTo: rightArrow.leadingAnchor, constant: 12),
             
             rightArrow.trailingAnchor.constraint(equalTo: collectionHead.trailingAnchor, constant: -16),
-            rightArrow.centerYAnchor.constraint(equalTo: headLargeTitle.centerYAnchor),
+            rightArrow.centerYAnchor.constraint(equalTo: headLargeTitle.centerYAnchor)
         ])
     }
     
-    private func setupCollectionView() {
+    private func setupCollectionViewLayout() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = calculateItemSize()
+        let width = (view.frame.width - 44) / 2
+        let height = (view.frame.height * 16 / 100)
+        layout.itemSize = CGSize(width: width, height: height)
         layout.minimumLineSpacing = 12
         layout.minimumInteritemSpacing = 8
         layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 16)
-        detailsCollectionView.collectionViewLayout = layout
-        detailsCollectionView.register(DetailsCollectionViewCell.self, forCellWithReuseIdentifier: DetailsCollectionViewCell.identifier)
-        detailsCollectionView.dataSource = self
-        detailsCollectionView.delegate = self
-        detailsCollectionView.backgroundColor = RoverColors.roverWhite
-        detailsCollectionView.contentInsetAdjustmentBehavior = .automatic
-        detailsCollectionView.showsVerticalScrollIndicator = false
+        collectionView.collectionViewLayout = layout
+    }
+    
+    private func setupCollectionView() {
+        collectionView.register(DetailsCollectionViewCell.self, forCellWithReuseIdentifier: DetailsCollectionViewCell.identifier)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = RoverColors.roverWhite
+        collectionView.contentInsetAdjustmentBehavior = .automatic
+        collectionView.showsVerticalScrollIndicator = false
         
-        view.addSubview(detailsCollectionView)
+        view.addSubview(collectionView)
         
-        detailsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            detailsCollectionView.topAnchor.constraint(equalTo: collectionHead.bottomAnchor),
-            detailsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            detailsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            detailsCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.topAnchor.constraint(equalTo: collectionHead.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
-    private func calculateItemSize() -> CGSize {
-        let width = (view.frame.width - 44) / 2
-        let height = CGFloat(view.frame.height * 16 / 100)
-        return CGSize(width: width, height: height)
+    private func setupTitleText() {
+        headLargeTitle.text = viewModel.selectedRover.roverName.rawValue
+        updateSolText()
+    }
+    
+    private func updateSolText() {
+        headSmallTitle.text = "СОЛ #\(viewModel.selectedSol)"
     }
     
     @objc func plusDay() {
-        RoverDataSource.shared.selectedSol += 1
-        headSmallTitle.text = "СОЛ #\(RoverDataSource.shared.selectedSol)"
+        viewModel.selectedSol += 1
+        updateSolText()
     }
-
+    
     @objc func minusDay() {
-        RoverDataSource.shared.selectedSol -= 1
-        headSmallTitle.text = "СОЛ #\(RoverDataSource.shared.selectedSol)"
+        viewModel.selectedSol -= 1
+        updateSolText()
     }
 }
 
 extension DetailsViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let number = detailsPhotos?.count else { return 0 }
+        guard let number = viewModel.selectedCameraPhotos?.photos.count else { return 0 }
         return number
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = detailsCollectionView.dequeueReusableCell(withReuseIdentifier: "DetailsCollectionViewCell", for: indexPath) as! DetailsCollectionViewCell
-        guard let photo = detailsPhotos?[indexPath.item] else { return cell }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailsCollectionViewCell", for: indexPath) as! DetailsCollectionViewCell
+        guard let photos = viewModel.selectedCameraPhotos?.photos else { return cell }
+        let photo = photos[indexPath.item]
         cell.detailsDateLabel.text = urlToRus(urlDate: photo.earthDate)
         cell.detailsIdLabel.text = "id #\(photo.id)"
         cell.roverImage = photo
@@ -170,5 +163,25 @@ extension DetailsViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+}
+
+extension DetailsViewController: CamerasViewModelDelegate {
+    func didChangeRover() {
+        if let navigationController = navigationController {
+            navigationController.popToRootViewController(animated: true)
+        }
+    }
+    
+    func didChangeSol() {
+        viewModel.fetchPhotos(rover: viewModel.selectedRover, sol: viewModel.selectedSol) { [weak self] result in
+            self?.viewModel.selectedCameraPhotos = result?.first(where: { $0.camera == self?.viewModel.selectedCamera })
+        }
+    }
+    
+    func didFetchPhotos() {
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 }

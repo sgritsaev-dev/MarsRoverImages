@@ -9,12 +9,16 @@ import UIKit
 
 final class SettingsViewController: UIViewController {
     
-    let networkDataFetcher = RoverPhotoFetcher()
+    let viewModel: SettingsViewModel
     
-    var selectedRover = Rover.curiosity
+    init(viewModelManager: ViewModelManager) {
+        self.viewModel = viewModelManager.settingsViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
     
-    private let rovers: [Rover] = Rover.allCases
-    private var units: [SettingsItem] = []
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let tableView = UITableView()
     private let tableHead = UIView()
@@ -25,9 +29,6 @@ final class SettingsViewController: UIViewController {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = RoverColors.roverWhite
-        units = rovers.map { roverName in
-            return SettingsItem(roverName: roverName, isSelected: roverName.rawValue == "Curiosity")
-        }
         setupSettingsTableHead()
         setupTableView()
     }
@@ -85,30 +86,28 @@ final class SettingsViewController: UIViewController {
 }
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rovers.count
+        return viewModel.rovers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let unit = units[indexPath.row]
-        cell.textLabel?.text = unit.roverName.rawValue
+        let rover = viewModel.rovers[indexPath.row]
+        cell.textLabel?.text = rover.roverName.rawValue
         cell.textLabel?.font = RoverFonts.settingsFont
-        cell.textLabel?.textColor = unit.isSelected ? RoverColors.roverPurple : RoverColors.roverDark
+        cell.textLabel?.textColor = rover == viewModel.selectedRover ? RoverColors.roverPurple : RoverColors.roverDark
         let checkmarkImageView = UIImageView(image: UIImage(named: "checkbox"))
-        cell.accessoryView = unit.isSelected ? checkmarkImageView : .none
+        cell.accessoryView = rover == viewModel.selectedRover ? checkmarkImageView : .none
         cell.backgroundColor = RoverColors.roverWhite
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let unit = units[indexPath.row]
-        selectedRover = unit.roverName
-        RoverDataSource.shared.selectedRover = selectedRover
-        if unit.isSelected == false {
-            units.forEach { $0.isSelected = false }
-            unit.isSelected = true
+        let rover = viewModel.rovers[indexPath.row]
+        if rover != viewModel.selectedRover {
+            viewModel.selectedRover = rover
             tableView.reloadData()
         }
     }

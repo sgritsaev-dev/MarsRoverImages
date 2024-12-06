@@ -7,48 +7,43 @@
 
 import UIKit
 
-final class CamerasViewController: UIViewController, DetailsViewControllerDelegate {
+final class CamerasViewController: UIViewController {
     
-    let networkDataFetcher = RoverPhotoFetcher()
+    let viewModel: CamerasViewModel
     
-    private let camerasTableView = UITableView()
+    private let tableView = UITableView()
     private let tableHead = UIView()
     private let headLargeTitle = UILabel()
     private let headSmallTitle = UILabel()
     private let leftArrow = UIButton()
     private let rightArrow = UIButton()
     
-    var camerasPhotoGroups: [GroupedPhotos]?
+    init(viewModelManager: ViewModelManager) {
+        self.viewModel = viewModelManager.camerasViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
-        view.backgroundColor = RoverColors.roverWhite
-        RoverDataSource.shared.reloadDelegate = { [weak self] rover, sol in
-            self?.loadData(rover: rover, sol: sol)
-            self?.camerasTableView.reloadData()
-        }
-        loadData(rover: RoverDataSource.shared.selectedRover.lowercase, sol: RoverDataSource.shared.selectedSol)
+        setupUI()
         setupCamerasTableHead()
         setupTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        headLargeTitle.text = RoverDataSource.shared.selectedRover.rawValue
-        headSmallTitle.text = "СОЛ #\(RoverDataSource.shared.selectedSol)"
+        setupTitleText()
+        viewModel.delegate = self
+        viewModel.delegate?.didChangeSol()
     }
     
-    func didUpdateRoverOrSol(rover: String, sol: Int) {
-        loadData(rover: rover, sol: sol)
-        camerasTableView.reloadData()
-    }
-    
-    private func loadData(rover: String, sol: Int) {
-        self.networkDataFetcher.fetchGroupedPhotos(rover: rover, sol: sol) { [weak self] results in
-            self?.camerasPhotoGroups = results
-            self?.camerasTableView.reloadData()
-        }
+    private func setupUI() {
+        navigationController?.isNavigationBarHidden = true
+        view.backgroundColor = RoverColors.roverWhite
     }
     
     private func setupCamerasTableHead() {
@@ -94,58 +89,83 @@ final class CamerasViewController: UIViewController, DetailsViewControllerDelega
             leftArrow.trailingAnchor.constraint(equalTo: rightArrow.leadingAnchor, constant: 12),
             
             rightArrow.trailingAnchor.constraint(equalTo: tableHead.trailingAnchor, constant: -16),
-            rightArrow.centerYAnchor.constraint(equalTo: headLargeTitle.centerYAnchor),
+            rightArrow.centerYAnchor.constraint(equalTo: headLargeTitle.centerYAnchor)
         ])
     }
     
     private func setupTableView() {
-        camerasTableView.backgroundColor = RoverColors.roverWhite
-        camerasTableView.showsVerticalScrollIndicator = false
-        camerasTableView.sectionHeaderTopPadding = 0
-        camerasTableView.separatorStyle = .none
+        tableView.backgroundColor = RoverColors.roverWhite
+        tableView.showsVerticalScrollIndicator = false
+        tableView.sectionHeaderTopPadding = 0
+        tableView.separatorStyle = .none
         
-        camerasTableView.dataSource = self
-        camerasTableView.delegate = self
-        camerasTableView.register(CamerasTableViewCell.self, forCellReuseIdentifier: CamerasTableViewCell().identifier)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(CamerasTableViewCell.self, forCellReuseIdentifier: CamerasTableViewCell().identifier)
         
-        view.addSubview(camerasTableView)
+        view.addSubview(tableView)
         
-        camerasTableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            camerasTableView.topAnchor.constraint(equalTo: tableHead.bottomAnchor),
-            camerasTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            camerasTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            camerasTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: tableHead.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
+    private func setupTitleText() {
+        headLargeTitle.text = viewModel.selectedRover.roverName.rawValue
+        updateSolText()
+    }
+    
+    private func updateSolText() {
+        headSmallTitle.text = "СОЛ #\(viewModel.selectedSol)"
+    }
+    
     @objc func plusDay() {
-        RoverDataSource.shared.selectedSol += 1
-        headSmallTitle.text = "СОЛ #\(RoverDataSource.shared.selectedSol)"
+        viewModel.selectedSol += 1
+        updateSolText()
     }
     
     @objc func minusDay() {
-        RoverDataSource.shared.selectedSol -= 1
-        headSmallTitle.text = "СОЛ #\(RoverDataSource.shared.selectedSol)"
+        viewModel.selectedSol -= 1
+        updateSolText()
     }
 }
 
 extension CamerasViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let number = camerasPhotoGroups?.count else {return 0}
-        return number
+        guard let groupedPhotos = viewModel.groupedPhotos else { return 0 }
+        return groupedPhotos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CamerasTableViewCell().identifier, for: indexPath) as? CamerasTableViewCell else { return UITableViewCell() }
-        guard let group = camerasPhotoGroups?[indexPath.row] else { return cell }
-        cell.photos = group.photos
-        cell.sectionHeader.text = group.name
-        cell.navigationController = navigationController
+        guard let groupedPhotos = viewModel.groupedPhotos else { return cell }
+        cell.cameraHeader.text = groupedPhotos[indexPath.row].camera?.name
+        cell.photos = groupedPhotos[indexPath.row].photos
+        cell.navigationController = self.navigationController
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(view.frame.height*20/100)
+    }
+}
+
+extension CamerasViewController: CamerasViewModelDelegate {
+    func didChangeRover() {
+    }
+    
+    func didChangeSol() {
+        viewModel.fetchPhotos(rover: viewModel.selectedRover, sol: viewModel.selectedSol) { result in
+        }
+    }
+    
+    func didFetchPhotos() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 }
