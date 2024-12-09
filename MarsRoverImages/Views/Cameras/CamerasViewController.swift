@@ -11,12 +11,8 @@ final class CamerasViewController: UIViewController {
     
     let viewModel: CamerasViewModel
     
+    private var headerView: HeaderView?
     private let tableView = UITableView()
-    private let tableHead = UIView()
-    private let headLargeTitle = UILabel()
-    private let headSmallTitle = UILabel()
-    private let leftArrow = UIButton()
-    private let rightArrow = UIButton()
     
     init() {
         self.viewModel = CamerasViewModel()
@@ -30,13 +26,14 @@ final class CamerasViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setupCamerasTableHead()
+        setupHeaderView()
         setupTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupTitleText()
+        guard let headerView = headerView else { return }
+        headerView.updateHeader()
         viewModel.delegate = self
         viewModel.delegate?.didChangeSol()
     }
@@ -46,50 +43,17 @@ final class CamerasViewController: UIViewController {
         view.backgroundColor = RoverColors.roverWhite
     }
     
-    private func setupCamerasTableHead() {
-        tableHead.backgroundColor = RoverColors.roverWhite
-        
-        headLargeTitle.font = RoverFonts.headLargeFont
-        headLargeTitle.textColor = RoverColors.roverDark
-        
-        headSmallTitle.font = RoverFonts.headSmallFont
-        headSmallTitle.textColor = RoverColors.roverLight
-        
-        leftArrow.setImage(UIImage(named: "arrow-left"), for: .normal)
-        leftArrow.addTarget(self, action: #selector(self.minusDay), for: .touchUpInside)
-        
-        rightArrow.setImage(UIImage(named: "arrow-right"), for: .normal)
-        rightArrow.addTarget(self, action: #selector(self.plusDay), for: .touchUpInside)
-        
-        view.addSubview(tableHead)
-        tableHead.addSubview(headLargeTitle)
-        tableHead.addSubview(headSmallTitle)
-        tableHead.addSubview(leftArrow)
-        tableHead.addSubview(rightArrow)
-        
-        tableHead.translatesAutoresizingMaskIntoConstraints = false
-        headLargeTitle.translatesAutoresizingMaskIntoConstraints = false
-        headSmallTitle.translatesAutoresizingMaskIntoConstraints = false
-        leftArrow.translatesAutoresizingMaskIntoConstraints = false
-        rightArrow.translatesAutoresizingMaskIntoConstraints = false
+    private func setupHeaderView() {
+        let headerView = HeaderView(frame: .zero, viewModel: viewModel)
+        self.headerView = headerView
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(headerView)
         
         NSLayoutConstraint.activate([
-            tableHead.heightAnchor.constraint(equalToConstant: (view.bounds.height)/100*13),
-            tableHead.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableHead.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableHead.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            headLargeTitle.leadingAnchor.constraint(equalTo: tableHead.leadingAnchor, constant: 16),
-            headLargeTitle.centerYAnchor.constraint(equalTo: tableHead.centerYAnchor),
-            
-            headSmallTitle.leadingAnchor.constraint(equalTo: headLargeTitle.leadingAnchor),
-            headSmallTitle.bottomAnchor.constraint(equalTo: headLargeTitle.topAnchor, constant: -8),
-            
-            leftArrow.topAnchor.constraint(equalTo: rightArrow.topAnchor),
-            leftArrow.trailingAnchor.constraint(equalTo: rightArrow.leadingAnchor, constant: 12),
-            
-            rightArrow.trailingAnchor.constraint(equalTo: tableHead.trailingAnchor, constant: -16),
-            rightArrow.centerYAnchor.constraint(equalTo: headLargeTitle.centerYAnchor)
+            headerView.heightAnchor.constraint(equalToConstant: (view.bounds.height)/100*13),
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
@@ -102,35 +66,17 @@ final class CamerasViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CamerasTableViewCell.self, forCellReuseIdentifier: CamerasTableViewCell.identifier)
-        
+                
         view.addSubview(tableView)
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: tableHead.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    }
-    
-    private func setupTitleText() {
-        headLargeTitle.text = viewModel.selectedRover.roverName.rawValue
-        updateSolText()
-    }
-    
-    private func updateSolText() {
-        headSmallTitle.text = "СОЛ #\(viewModel.selectedSol)"
-    }
-    
-    @objc func plusDay() {
-        viewModel.selectedSol += 1
-        updateSolText()
-    }
-    
-    @objc func minusDay() {
-        viewModel.selectedSol -= 1
-        updateSolText()
+        guard let headerView = headerView else { return }
+        tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
     }
 }
 
