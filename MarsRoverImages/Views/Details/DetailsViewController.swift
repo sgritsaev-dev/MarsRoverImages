@@ -18,8 +18,8 @@ final class DetailsViewController: UIViewController {
     private let rightArrow = UIButton()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
-    init(viewModelManager: ViewModelManager) {
-        self.viewModel = viewModelManager.camerasViewModel
+    init(viewModel: CamerasViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -98,7 +98,7 @@ final class DetailsViewController: UIViewController {
     private func setupCollectionViewLayout() {
         let layout = UICollectionViewFlowLayout()
         let width = (view.frame.width - 44) / 2
-        let height = (view.frame.height * 16 / 100)
+        let height = (width * 3 / 4)
         layout.itemSize = CGSize(width: width, height: height)
         layout.minimumLineSpacing = 12
         layout.minimumInteritemSpacing = 8
@@ -152,12 +152,10 @@ extension DetailsViewController: UICollectionViewDataSource, UICollectionViewDel
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailsCollectionViewCell", for: indexPath) as! DetailsCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailsCollectionViewCell", for: indexPath) as? DetailsCollectionViewCell else { return UICollectionViewCell() }
         guard let photos = viewModel.selectedCameraPhotos?.photos else { return cell }
         let photo = photos[indexPath.item]
-        cell.detailsDateLabel.text = urlToRus(urlDate: photo.earthDate)
-        cell.detailsIdLabel.text = "id #\(photo.id)"
-        cell.roverImage = photo
+        cell.configure(image: photo, imageDateText: photo.earthDate.dateToRus, imageIdText: "id #\(photo.id)")
         return cell
     }
     

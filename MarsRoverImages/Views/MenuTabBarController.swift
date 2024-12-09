@@ -23,14 +23,14 @@ final class MenuTabBarController: UITabBarController {
         tabBar.isTranslucent = false
         tabBar.tintColor = RoverColors.roverPurple
         tabBar.unselectedItemTintColor = RoverColors.roverDark
-        let viewModelManager = ViewModelManager()
+        let camerasViewController = CamerasViewController()
+        let settingsViewController = SettingsViewController()
         self.viewControllers = dataSource.map {
             switch $0 {
             case .cameras:
-                let camerasViewController = CamerasViewController(viewModelManager: viewModelManager)
                 return UINavigationController(rootViewController: camerasViewController)
             case .settings:
-                let settingsViewController = SettingsViewController(viewModelManager: viewModelManager)
+                settingsViewController.viewModel.delegate = camerasViewController.viewModel
                 return UINavigationController(rootViewController: settingsViewController)
             }
         }

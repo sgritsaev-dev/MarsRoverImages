@@ -10,17 +10,16 @@ import Nuke
 
 final class CamerasCollectionViewCell: UICollectionViewCell {
     
-    let identifier = "CamerasCollectionViewCell"
+    static let identifier = "CamerasCollectionViewCell"
     
-    let cameraIdLabel = UILabel()
-    let cameraDateLabel = UILabel()
-    var indexPath: IndexPath?
-    var roverImage: Photo? {
+    private var roverImage: Photo? {
         didSet {
             guard let image = roverImage, let url = URL(string: image.imgSrc) else { return }
             Nuke.loadImage(with: url, into: roverImageView)
         }
     }
+    private let cameraIdLabel = UILabel()
+    private let cameraDateLabel = UILabel()
     private let roverImageView = UIImageView()
     
     override init(frame: CGRect) {
@@ -37,6 +36,12 @@ final class CamerasCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         roverImageView.image = nil
+    }
+    
+    func configure(image: Photo?, imageDateText: String, imageIdText: String) {
+        roverImage = image
+        cameraDateLabel.text = imageDateText
+        cameraIdLabel.text = imageIdText
     }
     
     private func setupUI() {

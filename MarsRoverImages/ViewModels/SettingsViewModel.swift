@@ -8,7 +8,7 @@
 final class SettingsViewModel {
     weak var delegate: SettingsViewModelDelegate?
     
-    var rovers: [Rover] = Rover.RoverName.allCases.map { Rover(roverName: $0) }
+    let rovers: [Rover] = Rover.RoverName.allCases.map { Rover(roverName: $0) }
     var selectedRover: Rover? {
         didSet {
             guard let rover = selectedRover else { return }

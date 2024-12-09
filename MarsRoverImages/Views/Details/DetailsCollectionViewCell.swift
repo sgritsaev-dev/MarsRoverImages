@@ -12,14 +12,14 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "DetailsCollectionViewCell"
     
-    var roverImage: Photo? {
+    private var roverImage: Photo? {
         didSet {
             guard let image = roverImage, let url = URL(string: image.imgSrc) else { return }
             Nuke.loadImage(with: url, into: roverImageView)
         }
     }
-    let detailsIdLabel = UILabel()
-    let detailsDateLabel = UILabel()
+    private let detailsIdLabel = UILabel()
+    private let detailsDateLabel = UILabel()
     private let roverImageView = UIImageView()
     
     override init(frame: CGRect) {
@@ -35,6 +35,12 @@ final class DetailsCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         roverImageView.image = nil
+    }
+    
+    func configure(image: Photo?, imageDateText: String, imageIdText: String) {
+        roverImage = image
+        detailsDateLabel.text = imageDateText
+        detailsIdLabel.text = imageIdText
     }
     
     private func setupLabels() {

@@ -9,7 +9,6 @@ import Foundation
 
 final class CamerasViewModel {
     
-    static let sharedInstance = CamerasViewModel()
     weak var delegate: CamerasViewModelDelegate?
     
     var groupedPhotos: [GroupedPhotos]? {
@@ -37,8 +36,8 @@ final class CamerasViewModel {
         }
     }
     
-    private var networkService = RoversPhotoNetworkService()
-
+    private let networkService = RoversPhotoNetworkService()
+    
     init(selectedRover: Rover = Rover(roverName: .curiosity), selectedSol: Int = 1000) {
         self.selectedRover = selectedRover
         self.selectedSol = selectedSol
@@ -49,14 +48,9 @@ final class CamerasViewModel {
             if error != nil {
                 completion(nil)
                 return
-            }
-            do {
-                guard let data = data else { return }
-                let decoder = JSONDecoder()
-                let results = try decoder.decode(Photos.self, from: data)
-                
+            } else if let photos = data {
                 var groupedResult = [GroupedPhotos]()
-                results.photos.forEach { photo in
+                photos.photos.forEach { photo in
                     if let index = groupedResult.firstIndex(where: { $0.camera?.name == photo.camera.name }) {
                         groupedResult[index].photos.append(photo)
                     } else {
@@ -65,7 +59,7 @@ final class CamerasViewModel {
                 }
                 self.groupedPhotos = groupedResult
                 completion(groupedResult)
-            } catch {
+            } else {
                 completion(nil)
             }
         }

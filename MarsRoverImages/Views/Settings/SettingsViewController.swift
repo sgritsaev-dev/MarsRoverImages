@@ -11,8 +11,8 @@ final class SettingsViewController: UIViewController {
     
     let viewModel: SettingsViewModel
     
-    init(viewModelManager: ViewModelManager) {
-        self.viewModel = viewModelManager.settingsViewModel
+    init() {
+        self.viewModel = SettingsViewModel()
         super.init(nibName: nil, bundle: nil)
     }
     

@@ -9,17 +9,16 @@ import UIKit
 
 final class CamerasTableViewCell: UITableViewCell {
     
-    let identifier = "CamerasTableViewCell"
+    static let identifier = "CamerasTableViewCell"
     
-    weak var navigationController: UINavigationController?
-    
-    let cameraHeader = UILabel()
-    var photos: [Photo]? {
+    private var photos: [Photo]? {
         didSet {
             collectionView.reloadData()
         }
     }
+    weak var delegate: CamerasTableViewCellDelegate?
     
+    private let cameraHeader = UILabel()
     private let cameraButton = UIButton()
     private let buttonImage = UIImageView()
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -33,6 +32,12 @@ final class CamerasTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(cameraHeaderText: String?, cameraPhotos: [Photo], cellDelegate: CamerasTableViewCellDelegate) {
+        cameraHeader.text = cameraHeaderText
+        photos = cameraPhotos
+        delegate = cellDelegate
     }
     
     private func setupHeader() {
@@ -93,12 +98,8 @@ final class CamerasTableViewCell: UITableViewCell {
     }
     
     @objc func cameraButtonTapped() {
-        guard let navigationController = self.navigationController else { return }
-        let detailsController = DetailsViewController(viewModelManager: ViewModelManager())
         guard let camera = self.cameraHeader.text else { return }
-        detailsController.viewModel.selectedCamera = Camera(name: camera)
-        detailsController.modalPresentationStyle = .fullScreen
-        navigationController.pushViewController(detailsController, animated: true)
+        delegate?.pushToDetails(with: camera)
     }
 }
 
@@ -112,16 +113,17 @@ extension CamerasTableViewCell: UICollectionViewDataSource, UICollectionViewDele
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CamerasCollectionViewCell", for: indexPath) as? CamerasCollectionViewCell else { return UICollectionViewCell() }
         guard let cameraPhotos = photos else { return cell }
         let photo = cameraPhotos[indexPath.item]
-        cell.indexPath = indexPath
-        cell.roverImage = photo
-        cell.cameraDateLabel.text = urlToRus(urlDate: photo.earthDate)
-        cell.cameraIdLabel.text = "id #\(photo.id)"
+        cell.configure(image: photo, imageDateText: photo.earthDate.dateToRus, imageIdText: "id #\(photo.id)")
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let height = collectionView.frame.height
-        let width = collectionView.frame.width * 0.33
+        let width = height * 0.83
         return CGSize(width: width, height: height)
     }
+}
+
+protocol CamerasTableViewCellDelegate: AnyObject {
+    func pushToDetails(with camera: String)
 }

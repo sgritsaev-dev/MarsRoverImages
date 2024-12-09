@@ -18,8 +18,8 @@ final class CamerasViewController: UIViewController {
     private let leftArrow = UIButton()
     private let rightArrow = UIButton()
     
-    init(viewModelManager: ViewModelManager) {
-        self.viewModel = viewModelManager.camerasViewModel
+    init() {
+        self.viewModel = CamerasViewModel()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -101,7 +101,7 @@ final class CamerasViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(CamerasTableViewCell.self, forCellReuseIdentifier: CamerasTableViewCell().identifier)
+        tableView.register(CamerasTableViewCell.self, forCellReuseIdentifier: CamerasTableViewCell.identifier)
         
         view.addSubview(tableView)
         
@@ -141,26 +141,29 @@ extension CamerasViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CamerasTableViewCell().identifier, for: indexPath) as? CamerasTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CamerasTableViewCell.identifier, for: indexPath) as? CamerasTableViewCell else { return UITableViewCell() }
         guard let groupedPhotos = viewModel.groupedPhotos else { return cell }
-        cell.cameraHeader.text = groupedPhotos[indexPath.row].camera?.name
-        cell.photos = groupedPhotos[indexPath.row].photos
-        cell.navigationController = self.navigationController
+        cell.configure(cameraHeaderText: groupedPhotos[indexPath.row].camera?.name, cameraPhotos: groupedPhotos[indexPath.row].photos, cellDelegate: self)
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(view.frame.height*20/100)
+        return CGFloat(158)
     }
 }
 
-extension CamerasViewController: CamerasViewModelDelegate {
-    func didChangeRover() {
+extension CamerasViewController: CamerasViewModelDelegate, CamerasTableViewCellDelegate {
+    func pushToDetails(with camera: String) {
+        let detailsViewController = DetailsViewController(viewModel: viewModel)
+        detailsViewController.viewModel.selectedCamera = Camera(name: camera)
+        detailsViewController.modalPresentationStyle = .fullScreen
+        navigationController?.pushViewController(detailsViewController, animated: true)
     }
     
+    func didChangeRover() {}
+    
     func didChangeSol() {
-        viewModel.fetchPhotos(rover: viewModel.selectedRover, sol: viewModel.selectedSol) { result in
-        }
+        viewModel.fetchPhotos(rover: viewModel.selectedRover, sol: viewModel.selectedSol) { _ in }
     }
     
     func didFetchPhotos() {
