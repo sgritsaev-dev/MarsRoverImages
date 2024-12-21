@@ -1,0 +1,636 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		495D93652CF9C17300376FB2 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 495D93642CF9C17300376FB2 /* Nuke */; };
+		49945DCF2D0C015600EDA2C3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 49945DCE2D0C015600EDA2C3 /* Lottie */; };
+		49945E092D0C461800EDA2C3 /* SkeletonView in Frameworks */ = {isa = PBXBuildFile; productRef = 49945E082D0C461800EDA2C3 /* SkeletonView */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		49063BEB2CEB72BD0007137E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49063BCC2CEB72BA0007137E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49063BD32CEB72BA0007137E;
+			remoteInfo = MarsRoverImages;
+		};
+		49063BF52CEB72BD0007137E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49063BCC2CEB72BA0007137E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 49063BD32CEB72BA0007137E;
+			remoteInfo = MarsRoverImages;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		49063BD42CEB72BA0007137E /* MarsRoverImages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarsRoverImages.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		49063BEA2CEB72BD0007137E /* MarsRoverImagesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarsRoverImagesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		49063BF42CEB72BD0007137E /* MarsRoverImagesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarsRoverImagesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		49063BFC2CEB72BD0007137E /* Exceptions for "MarsRoverImages" folder in "MarsRoverImages" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 49063BD32CEB72BA0007137E /* MarsRoverImages */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		49063BD62CEB72BA0007137E /* MarsRoverImages */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				49063BFC2CEB72BD0007137E /* Exceptions for "MarsRoverImages" folder in "MarsRoverImages" target */,
+			);
+			path = MarsRoverImages;
+			sourceTree = "<group>";
+		};
+		49063BED2CEB72BD0007137E /* MarsRoverImagesTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MarsRoverImagesTests;
+			sourceTree = "<group>";
+		};
+		49063BF72CEB72BD0007137E /* MarsRoverImagesUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MarsRoverImagesUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		49063BD12CEB72BA0007137E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				495D93652CF9C17300376FB2 /* Nuke in Frameworks */,
+				49945DCF2D0C015600EDA2C3 /* Lottie in Frameworks */,
+				49945E092D0C461800EDA2C3 /* SkeletonView in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49063BE72CEB72BD0007137E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49063BF12CEB72BD0007137E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		49063BCB2CEB72BA0007137E = {
+			isa = PBXGroup;
+			children = (
+				49063BD62CEB72BA0007137E /* MarsRoverImages */,
+				49063BED2CEB72BD0007137E /* MarsRoverImagesTests */,
+				49063BF72CEB72BD0007137E /* MarsRoverImagesUITests */,
+				49063BD52CEB72BA0007137E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		49063BD52CEB72BA0007137E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				49063BD42CEB72BA0007137E /* MarsRoverImages.app */,
+				49063BEA2CEB72BD0007137E /* MarsRoverImagesTests.xctest */,
+				49063BF42CEB72BD0007137E /* MarsRoverImagesUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		49063BD32CEB72BA0007137E /* MarsRoverImages */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49063BFD2CEB72BD0007137E /* Build configuration list for PBXNativeTarget "MarsRoverImages" */;
+			buildPhases = (
+				49063BD02CEB72BA0007137E /* Sources */,
+				49063BD12CEB72BA0007137E /* Frameworks */,
+				49063BD22CEB72BA0007137E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				49063BD62CEB72BA0007137E /* MarsRoverImages */,
+			);
+			name = MarsRoverImages;
+			packageProductDependencies = (
+				495D93642CF9C17300376FB2 /* Nuke */,
+				49945DCE2D0C015600EDA2C3 /* Lottie */,
+				49945E082D0C461800EDA2C3 /* SkeletonView */,
+			);
+			productName = MarsRoverImages;
+			productReference = 49063BD42CEB72BA0007137E /* MarsRoverImages.app */;
+			productType = "com.apple.product-type.application";
+		};
+		49063BE92CEB72BD0007137E /* MarsRoverImagesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49063C022CEB72BD0007137E /* Build configuration list for PBXNativeTarget "MarsRoverImagesTests" */;
+			buildPhases = (
+				49063BE62CEB72BD0007137E /* Sources */,
+				49063BE72CEB72BD0007137E /* Frameworks */,
+				49063BE82CEB72BD0007137E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				49063BEC2CEB72BD0007137E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				49063BED2CEB72BD0007137E /* MarsRoverImagesTests */,
+			);
+			name = MarsRoverImagesTests;
+			packageProductDependencies = (
+			);
+			productName = MarsRoverImagesTests;
+			productReference = 49063BEA2CEB72BD0007137E /* MarsRoverImagesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		49063BF32CEB72BD0007137E /* MarsRoverImagesUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49063C052CEB72BD0007137E /* Build configuration list for PBXNativeTarget "MarsRoverImagesUITests" */;
+			buildPhases = (
+				49063BF02CEB72BD0007137E /* Sources */,
+				49063BF12CEB72BD0007137E /* Frameworks */,
+				49063BF22CEB72BD0007137E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				49063BF62CEB72BD0007137E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				49063BF72CEB72BD0007137E /* MarsRoverImagesUITests */,
+			);
+			name = MarsRoverImagesUITests;
+			packageProductDependencies = (
+			);
+			productName = MarsRoverImagesUITests;
+			productReference = 49063BF42CEB72BD0007137E /* MarsRoverImagesUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		49063BCC2CEB72BA0007137E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					49063BD32CEB72BA0007137E = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					49063BE92CEB72BD0007137E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 49063BD32CEB72BA0007137E;
+					};
+					49063BF32CEB72BD0007137E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 49063BD32CEB72BA0007137E;
+					};
+				};
+			};
+			buildConfigurationList = 49063BCF2CEB72BA0007137E /* Build configuration list for PBXProject "MarsRoverImages" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 49063BCB2CEB72BA0007137E;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				495D93632CF9C17300376FB2 /* XCRemoteSwiftPackageReference "Nuke" */,
+				49945DCD2D0C015600EDA2C3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				49945E072D0C461800EDA2C3 /* XCRemoteSwiftPackageReference "SkeletonView" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 49063BD52CEB72BA0007137E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				49063BD32CEB72BA0007137E /* MarsRoverImages */,
+				49063BE92CEB72BD0007137E /* MarsRoverImagesTests */,
+				49063BF32CEB72BD0007137E /* MarsRoverImagesUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		49063BD22CEB72BA0007137E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49063BE82CEB72BD0007137E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49063BF22CEB72BD0007137E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		49063BD02CEB72BA0007137E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49063BE62CEB72BD0007137E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49063BF02CEB72BD0007137E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		49063BEC2CEB72BD0007137E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49063BD32CEB72BA0007137E /* MarsRoverImages */;
+			targetProxy = 49063BEB2CEB72BD0007137E /* PBXContainerItemProxy */;
+		};
+		49063BF62CEB72BD0007137E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 49063BD32CEB72BA0007137E /* MarsRoverImages */;
+			targetProxy = 49063BF52CEB72BD0007137E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		49063BFE2CEB72BD0007137E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V8M4T8MWH3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MarsRoverImages/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NASA.MarsRoverImages;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		49063BFF2CEB72BD0007137E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V8M4T8MWH3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MarsRoverImages/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NASA.MarsRoverImages;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		49063C002CEB72BD0007137E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		49063C012CEB72BD0007137E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		49063C032CEB72BD0007137E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V8M4T8MWH3;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NASA.MarsRoverImagesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MarsRoverImages.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MarsRoverImages";
+			};
+			name = Debug;
+		};
+		49063C042CEB72BD0007137E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V8M4T8MWH3;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NASA.MarsRoverImagesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MarsRoverImages.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MarsRoverImages";
+			};
+			name = Release;
+		};
+		49063C062CEB72BD0007137E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V8M4T8MWH3;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NASA.MarsRoverImagesUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MarsRoverImages;
+			};
+			name = Debug;
+		};
+		49063C072CEB72BD0007137E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V8M4T8MWH3;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = NASA.MarsRoverImagesUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MarsRoverImages;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		49063BCF2CEB72BA0007137E /* Build configuration list for PBXProject "MarsRoverImages" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49063C002CEB72BD0007137E /* Debug */,
+				49063C012CEB72BD0007137E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49063BFD2CEB72BD0007137E /* Build configuration list for PBXNativeTarget "MarsRoverImages" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49063BFE2CEB72BD0007137E /* Debug */,
+				49063BFF2CEB72BD0007137E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49063C022CEB72BD0007137E /* Build configuration list for PBXNativeTarget "MarsRoverImagesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49063C032CEB72BD0007137E /* Debug */,
+				49063C042CEB72BD0007137E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		49063C052CEB72BD0007137E /* Build configuration list for PBXNativeTarget "MarsRoverImagesUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				49063C062CEB72BD0007137E /* Debug */,
+				49063C072CEB72BD0007137E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		495D93632CF9C17300376FB2 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.6.0;
+			};
+		};
+		49945DCD2D0C015600EDA2C3 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = exactVersion;
+				version = 4.5.0;
+			};
+		};
+		49945E072D0C461800EDA2C3 /* XCRemoteSwiftPackageReference "SkeletonView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Juanpe/SkeletonView.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.31.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		495D93642CF9C17300376FB2 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 495D93632CF9C17300376FB2 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		49945DCE2D0C015600EDA2C3 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49945DCD2D0C015600EDA2C3 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		49945E082D0C461800EDA2C3 /* SkeletonView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 49945E072D0C461800EDA2C3 /* XCRemoteSwiftPackageReference "SkeletonView" */;
+			productName = SkeletonView;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 49063BCC2CEB72BA0007137E /* Project object */;
+}
