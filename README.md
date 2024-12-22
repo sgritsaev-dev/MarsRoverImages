@@ -35,10 +35,9 @@ If you'd like to contribute to this project, feel free to submit a pull request 
 ### Screenshots and Demo Video
 
 <div style="display: flex; justify-content: space-around; flex-wrap: wrap;">
-    <img src="https://github.com/user-attachments/assets/1c724e53-98f4-4418-b5e4-706add291320" alt="Settings Section" width="200"/>
-    <img src="https://github.com/user-attachments/assets/75759974-adff-439e-9a7b-eb67055c5b3b" alt="Camera Details" width="200"/>
-    <img src="https://github.com/user-attachments/assets/9b855dfa-bb1e-43cb-b9c5-183b8b8f601c" alt="Cameras Section" width="200"/>
+    <img src="https://github.com/user-attachments/assets/5203145c-d20e-43fd-b16e-fe40332c889a" alt="Settings Section" width="200"/>
+    <img src="https://github.com/user-attachments/assets/78a5b892-8369-4388-ae9d-3f510a25444a" alt="Camera Details" width="200"/>
+    <img src="https://github.com/user-attachments/assets/626505b6-3d17-4efc-ac7e-31f0a9b64148" alt="Cameras Section" width="200"/>
 </div>
 
-https://github.com/user-attachments/assets/20f6c378-6667-44e5-b9ff-6b2f260fd5d3
-
+https://github.com/user-attachments/assets/ce76f079-af73-4fe3-850c-fe7e6aeae14f
